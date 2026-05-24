@@ -12,6 +12,12 @@ AI entertainment platform focused on AI idols, virtual characters, and immersive
 
 ---
 
+## Demo Video
+
+https://github.com/AIV48/myblin9/raw/main/assets/videos/sweeteez.mp4
+
+---
+
 ## Features
 
 - AI idol interaction
@@ -97,5 +103,5 @@ The project documents an AI-assisted creative pipeline for developing virtual id
 docs/       → research and workflow documentation
 ai/         → AI workflow notes and prompt engineering
 frontend/   → frontend prototype and UI experiments
-assets/     → concept art and promotional assets
+assets/     → concept art, promotional assets, and demo video
 api/        → API specifications and backend structure
