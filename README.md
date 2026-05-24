@@ -2,6 +2,8 @@
 
 🌐 Official Website: https://myblin9.com
 
+[![Watch Demo](assets/sweeteez-preview.jpg)](https://github.com/AIV48/myblin9/raw/main/assets/videos/sweeteez.mp4)
+
 ![Status](https://img.shields.io/badge/status-active-blue)
 ![AI](https://img.shields.io/badge/focus-AI%20Entertainment-purple)
 ![Platform](https://img.shields.io/badge/platform-myblin9-black)
@@ -9,12 +11,6 @@
 # myblin9
 
 AI entertainment platform focused on AI idols, virtual characters, and immersive fan interaction.
-
----
-
-## Demo Video
-
-https://github.com/AIV48/myblin9/raw/main/assets/videos/sweeteez.mp4
 
 ---
 
@@ -103,5 +99,5 @@ The project documents an AI-assisted creative pipeline for developing virtual id
 docs/       → research and workflow documentation
 ai/         → AI workflow notes and prompt engineering
 frontend/   → frontend prototype and UI experiments
-assets/     → concept art, promotional assets, and demo video
+assets/     → concept art, promotional assets, preview images, and demo video
 api/        → API specifications and backend structure
