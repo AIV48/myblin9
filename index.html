@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBlin9 Corp. — Next Generation Entertainment</title>
+    <meta name="description" content="마이블링 엔터테인먼트. 서바이벌 오디션, 아이돌 그룹, 콘텐츠 제작.">
+    <meta property="og:title" content="MyBlin9 Corp.">
+    <meta property="og:description" content="서바이벌 오디션 PRODUCE9 & AETHERIUM, 광고·뮤비 제작">
+    <meta property="og:url" content="https://myblin9.com">
+    <meta property="og:image" content="https://myblin9.com/img/myblin9-og.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Sans:wght@300;400;500&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --bg:     #06060a;
+            --border: rgba(255,255,255,0.07);
+            --text:   #ffffff;
+            --muted:  rgba(255,255,255,0.38);
+            --dim:    rgba(255,255,255,0.6);
+            --accent: #ff2d78;
+            --nav-h:  64px;
+            --left-w: 320px;
+        }
+        html, body { height:100%; overflow:hidden; }
+        body { background:var(--bg); color:var(--text); font-family:'DM Sans','Noto Sans KR',sans-serif; line-height:1.5; }
+        a { color:inherit; text-decoration:none; }
+        img { display:block; }
+
+        /* ── NAVBAR ── */
+        .nav {
+            position:fixed; top:0; left:0; right:0; z-index:200;
+            height:var(--nav-h); display:flex; align-items:center; justify-content:space-between;
+            padding:0 36px; background:rgba(6,6,10,0.92); backdrop-filter:blur(16px);
+            border-bottom:1px solid var(--border);
+        }
+        .nav-logo img { height:28px; display:block; filter:drop-shadow(0 0 8px rgba(255,45,120,0.4)); }
+        .nav-logo span { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:3px; color:#fff; text-shadow:0 0 14px rgba(255,45,120,0.5); }
+        .nav-menu { display:flex; list-style:none; }
+        .nav-menu > li { position:relative; }
+        .nav-menu > li > a,
+        .nav-menu > li > span {
+            display:block; padding:0 16px; height:var(--nav-h); line-height:var(--nav-h);
+            font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; letter-spacing:2px;
+            text-transform:uppercase; color:var(--dim); transition:color 0.2s; cursor:pointer; white-space:nowrap;
+        }
+        .nav-menu > li:hover > a, .nav-menu > li:hover > span { color:#fff; }
+        .nav-drop {
+            position:absolute; top:var(--nav-h); left:50%;
+            transform:translateX(-50%) translateY(8px);
+            min-width:170px; background:#0e0e16; border:1px solid var(--border);
+            list-style:none; opacity:0; visibility:hidden;
+            transition:opacity 0.2s, transform 0.2s; pointer-events:none; z-index:500;
+        }
+        .nav-menu > li:hover .nav-drop { opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); pointer-events:auto; }
+        .nav-drop li a { display:block; padding:11px 18px; font-size:13px; color:var(--dim); transition:background 0.15s,color 0.15s; white-space:nowrap; }
+        .nav-drop li a:hover { background:rgba(255,255,255,0.05); color:#fff; }
+        .nav-cta {
+            font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; letter-spacing:2px;
+            text-transform:uppercase; border:1px solid var(--accent); color:var(--accent);
+            padding:8px 20px; transition:background 0.2s,color 0.2s;
+        }
+        .nav-cta:hover { background:var(--accent); color:#000; }
+
+        /* ── STAGE ── */
+        .stage { position:fixed; top:var(--nav-h); left:0; right:0; bottom:0; display:flex; }
+
+        /* ── LEFT PANEL ── */
+        .panel-left {
+            width:var(--left-w); flex-shrink:0;
+            display:flex; flex-direction:column;
+            border-right:1px solid var(--border); overflow:hidden; z-index:10;
+            background:rgba(6,6,10,0.98);
+        }
+        .panel-left-header { padding:24px 28px 18px; border-bottom:1px solid var(--border); flex-shrink:0; }
+        .panel-left-header .eyebrow { font-family:'Rajdhani',sans-serif; font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+        .panel-left-header h2 { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:2px; color:#fff; }
+
+        .artist-list { flex:1; overflow-y:auto; scrollbar-width:thin; scrollbar-color:rgba(255,255,255,0.1) transparent; }
+        .artist-list::-webkit-scrollbar { width:3px; }
+        .artist-list::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); }
+
+        .list-divider {
+            padding:12px 28px 7px; font-family:'Rajdhani',sans-serif;
+            font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+            color:var(--muted); border-bottom:1px solid var(--border);
+            background:rgba(255,255,255,0.015); user-select:none;
+        }
+        .artist-item {
+            position:relative; display:flex; align-items:center; gap:14px;
+            padding:16px 28px; border-bottom:1px solid var(--border);
+            cursor:pointer; transition:background 0.2s; user-select:none;
+        }
+        .artist-item::before {
+            content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+            background:var(--item-accent, #ff2d78);
+            transform:scaleY(0); transition:transform 0.25s ease; transform-origin:bottom;
+        }
+        .artist-item:hover::before, .artist-item.active::before { transform:scaleY(1); }
+        .artist-item:hover, .artist-item.active { background:rgba(255,255,255,0.04); }
+
+        .artist-num { font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:1px; color:var(--muted); min-width:24px; flex-shrink:0; transition:color 0.2s; }
+        .artist-item:hover .artist-num, .artist-item.active .artist-num { color:var(--item-accent, #ff2d78); }
+
+        .artist-thumb { width:44px; height:44px; object-fit:cover; flex-shrink:0; filter:grayscale(50%) brightness(0.8); transition:filter 0.3s; background:#1a1a22; }
+        .artist-item:hover .artist-thumb, .artist-item.active .artist-thumb { filter:grayscale(0%) brightness(1); }
+
+        .artist-info { flex:1; min-width:0; }
+        .artist-name-en { font-family:'Bebas Neue',sans-serif; font-size:17px; letter-spacing:1px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .artist-name-ko { font-size:11px; color:var(--muted); margin-top:1px; }
+        .artist-tag { font-family:'Rajdhani',sans-serif; font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--item-accent, #ff2d78); margin-top:3px; opacity:0.8; }
+
+        .artist-arrow { font-size:13px; color:var(--muted); flex-shrink:0; opacity:0; transform:translateX(-6px); transition:opacity 0.2s,transform 0.2s; }
+        .artist-item:hover .artist-arrow, .artist-item.active .artist-arrow { opacity:1; transform:translateX(0); }
+
+        /* ── RIGHT PANEL ── */
+        .panel-right { flex:1; position:relative; overflow:hidden; }
+
+        .bg-slide {
+            position:absolute; inset:0; background-size:cover; background-position:center top;
+            opacity:0; transition:opacity 0.65s ease;
+        }
+        .bg-slide.active { opacity:1; }
+        .bg-slide::after {
+            content:''; position:absolute; inset:0;
+            background:linear-gradient(to right, rgba(6,6,10,0.93) 0%, rgba(6,6,10,0.5) 45%, rgba(6,6,10,0.08) 100%);
+        }
+        .bg-slide::before {
+            content:''; position:absolute; inset:0; z-index:1;
+            background:linear-gradient(to top, rgba(6,6,10,0.75) 0%, transparent 45%);
+        }
+
+        .slide-info {
+            position:absolute; z-index:20; bottom:56px; left:48px; right:48px;
+            opacity:0; transform:translateY(22px);
+            transition:opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+            pointer-events:none;
+        }
+        .slide-info.active { opacity:1; transform:translateY(0); pointer-events:auto; }
+
+        .members-badge {
+            display:inline-flex; align-items:center; gap:8px;
+            font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; letter-spacing:2px;
+            text-transform:uppercase; border:1px solid rgba(255,255,255,0.15);
+            padding:5px 14px; color:var(--muted); margin-bottom:14px;
+        }
+        .mbadge-dot { width:6px; height:6px; border-radius:50%; animation:pulse 2s infinite; flex-shrink:0; }
+        @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+
+        .s-eyebrow { font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; letter-spacing:4px; text-transform:uppercase; margin-bottom:10px; }
+        .s-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(54px,7vw,104px); letter-spacing:3px; line-height:0.9; color:#fff; text-shadow:0 4px 40px rgba(0,0,0,0.6); margin-bottom:16px; }
+        .s-title span { display:block; font-size:clamp(20px,2.2vw,34px); letter-spacing:6px; color:rgba(255,255,255,0.45); }
+        .s-desc { font-size:14px; color:var(--dim); max-width:440px; line-height:1.75; margin-bottom:26px; }
+
+        .slide-btn {
+            display:inline-flex; align-items:center; gap:8px;
+            font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700; letter-spacing:2px;
+            text-transform:uppercase; padding:12px 26px; transition:opacity 0.2s,transform 0.2s;
+        }
+        .slide-btn:hover { opacity:0.85; transform:translateY(-1px); }
+        .slide-btn-ghost { background:transparent !important; color:#fff !important; border:1px solid rgba(255,255,255,0.3); margin-left:10px; }
+        .slide-btn-ghost:hover { border-color:rgba(255,255,255,0.7) !important; }
+
+        .corner-num {
+            position:absolute; z-index:5; top:32px; right:44px;
+            font-family:'Bebas Neue',sans-serif; font-size:140px;
+            color:rgba(255,255,255,0.035); line-height:1;
+            pointer-events:none; user-select:none;
+        }
+
+        /* ── FOOTER ── */
+        .footer-strip {
+            position:fixed; bottom:0; left:0; right:0; z-index:100;
+            height:42px; display:flex; align-items:center; justify-content:space-between;
+            padding:0 36px; background:rgba(6,6,10,0.95); border-top:1px solid var(--border);
+        }
+        .f-left { font-size:11px; color:var(--muted); font-family:'Rajdhani',sans-serif; letter-spacing:1px; }
+        .f-right { display:flex; align-items:center; gap:18px; }
+        .f-right a { font-size:11px; color:var(--muted); font-family:'Rajdhani',sans-serif; letter-spacing:1px; text-transform:uppercase; transition:color 0.2s; }
+        .f-right a:hover { color:#fff; }
+        .social-icons { display:flex; gap:14px; align-items:center; }
+        .social-icons a { display:flex; align-items:center; }
+        .social-icons svg { width:16px; height:16px; fill:var(--muted); transition:fill 0.2s; }
+        .social-icons a:hover svg { fill:#fff; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width:860px) { :root{--left-w:250px;} .nav-menu{display:none;} }
+        @media (max-width:580px) {
+            .stage{flex-direction:column;}
+            .panel-left{width:100%;height:210px;border-right:none;border-bottom:1px solid var(--border);}
+            .artist-list{flex-direction:row;display:flex;overflow-x:auto;overflow-y:hidden;}
+            .artist-item{flex-direction:column;gap:5px;padding:10px 14px;min-width:90px;text-align:center;border-bottom:none;border-right:1px solid var(--border);}
+            .artist-arrow{display:none;}
+            .slide-info{left:20px;right:20px;bottom:50px;}
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="nav">
+    <a class="nav-logo" href="/">
+        <img src="img/myblin9 LOGO.png" alt="MyBlin9" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
+        <span style="display:none;">MYBLIN9</span>
+    </a>
+    <ul class="nav-menu">
+        <li>
+            <span>Company</span>
+            <ul class="nav-drop">
+                <li><a href="/menu/about_myblin9.html">About Us</a></li>
+                <li><a href="/menu/business.html">Business</a></li>
+                <li><a href="/menu/ir.html">IR / 투자</a></li>
+            </ul>
+        </li>
+        <li>
+            <span>Artists</span>
+            <ul class="nav-drop">
+                <li><a href="/swtz/swtz.html">SweeTeez</a></li>
+                <li><a href="/darkdiva/darkdiva.html">Dark Diva</a></li>
+                <li><a href="/ashengate/ashengate.html">Ashengate</a></li>
+                <li><a href="/sakai-erika/sakai-erika.html">Sakai Erika</a></li>
+                <li><a href="/jiho/jiho.html">JIHO</a></li>
+                <li><a href="/sophia-han/sophia-han.html">Sophia Han</a></li>
+                <li><a href="/derek/derek.html">DEREK</a></li>
+            </ul>
+        </li>
+        <li>
+            <span>Projects</span>
+            <ul class="nav-drop">
+                <li><a href="/pd9/pd9.html">PRODUCE 9</a></li>
+                <li><a href="/aeth/aeth.html">AETHERIUM</a></li>
+                <li><a href="/platform/platform.html">Platform</a></li>
+            </ul>
+        </li>
+        <li>
+            <span>B2B</span>
+            <ul class="nav-drop">
+                <li><a href="/menu/business.html">콘텐츠 제작</a></li>
+                <li><a href="/menu/business.html#ad">광고 · MV 외주</a></li>
+                <li><a href="/menu/business.html#virtual">버추얼 인플루언서</a></li>
+                <li><a href="/menu/contact.html">Contact</a></li>
+            </ul>
+        </li>
+        <li>
+            <span>Audition</span>
+            <ul class="nav-drop">
+                <li><a href="/menu/information.html">Apply</a></li>
+                <li><a href="/menu/faq.html">FAQ</a></li>
+            </ul>
+        </li>
+        <li>
+            <span>PR</span>
+            <ul class="nav-drop">
+                <li><a href="/menu/new_release.html">New Release</a></li>
+                <li><a href="/menu/news.html">News</a></li>
+                <li><a href="/menu/notice.html">Notice</a></li>
+            </ul>
+        </li>
+    </ul>
+    <a href="/menu/contact.html" class="nav-cta">Work With Us</a>
+</nav>
+
+<!-- ═══ STAGE ═══ -->
+<div class="stage">
+
+    <!-- LEFT PANEL -->
+    <aside class="panel-left">
+        <div class="panel-left-header">
+            <div class="eyebrow">MyBlin9 Artists &amp; Projects</div>
+            <h2>ROSTER</h2>
+        </div>
+        <div class="artist-list">
+
+            <div class="list-divider">Survival Audition</div>
+
+            <div class="artist-item active" data-id="produce9" data-accent="#ff2d78" data-link="/pd9/pd9.html" style="--item-accent:#ff2d78">
+                <span class="artist-num">01</span>
+                <img class="artist-thumb" src="img/artists/thumb_produce9.jpg" onerror="this.onerror=null;this.src='https://placehold.co/44x44/2a0a14/ff2d78?text=P9'" alt="PRODUCE 9">
+                <div class="artist-info">
+                    <div class="artist-name-en">PRODUCE 9</div>
+                    <div class="artist-name-ko">프로듀스 나인</div>
+                    <div class="artist-tag">Girls 99 · Survival Audition</div>
+                </div>
+                <span class="artist-arrow">→</span>
+            </div>
+
+            <div class="artist-item" data-id="aetherium" data-accent="#7c5cfc" data-link="/aeth/aeth.html" style="--item-accent:#7c5cfc">
+                <span class="artist-num">02</span>
+                <img class="artist-thumb" src="img/artists/thumb_aetherium.jpg" onerror="this.onerror=null;this.src='https://placehold.co/44x44/0d0a1e/7c5cfc?text=AE'" alt="AETHERIUM">
+                <div class="artist-info">
+                    <div class="artist-name-en">AETHERIUM</div>
+                    <div class="artist-name-ko">에테리움</div>
+                    <div class="artist-tag">Boys 99 · Survival Audition</div>
+                </div>
+                <span class="artist-arrow">→</span>
+            </div>
+
+            <div class="list-divider">Girl Groups</div>
+
+            <div class="artist-item" data-id="sweeteez" data-accent="#e8ff00" data-link="/swtz/swtz.html" style="--item-accent:#e8ff00">
+                <span class="artist-num">03</span>
+                <img class="artist-thumb" src="img/artists/thumb_sweeteez.jpg" onerror="this.onerror=null;this.src='https://placehold.co/44x44/141400/e8ff00?text=ST'" alt="SweeTeez">
+                <div class="artist-info">
+                    <div class="artist-name-en">SweeTeez</div>
+                    <div class="artist-name-ko">스위티즈</div>
+                    <div class="artist-tag">Girl Group · 5 Members</div>
+                </div>
+                <span class="artist-arrow">→</span>
+            </div>
+
+            <div class="artist-item" data-id="darkdiva" data-accent="#ff0044" data-link="/darkdiva/darkdiva.html" style="--item-accent:#ff0044">
+                <span class="artist-num">04</span>
+                <img class="artist-thumb" src="img/artists/thumb_darkdiva.jpg" onerror="this.onerror=null;this.src='https://placehold.co/44x44/1a0008/ff0044?text=DD'" alt="Dark Diva">
+                <div class="artist-info">
+                    <div class="artist-name-en">Dark Diva</div>
+                    <div class="artist-name-ko">다크디바</div>
+                    <div class="artist-tag">Kawaii Metal · 4 Members</div>
+                </div>
+                <span class="artist-arrow">→</span>
+            </div>
+
+            <div class="list-divider">Boy Group</div>
+
+            <div class="artist-item" data-id="ashengate" data-accent="#00d4ff" data-link="/ashengate/ashengate.html" style="--item-accent:#00d4ff">
+                <span class="artist-num">05</span>
+                <img class="artist-thumb" src="img/artists/thumb_ashengate.jpg" onerror="this.onerror=null;this.src='https://placehold.co/44x44/061318/00d4ff?text=AG'" alt="Ashengate">
+                <div class="artist-info">
+                    <div class="artist-name-en">Ashengate</div>
+                    <div class="artist-name-ko">애쉬엔게이트</div>
+                    <div class="artist-tag">Rock Band · 4 Members</div>
+                </div>
+                <span class="artist-arrow">→</span>
+            </div>
+
+            <div class="list-divider">Solo Artists</div>
+
+            <div class="artist-item" data-id="sakai" data-accent="#ff6eb4" data-link="/sakai-erika/sakai-erika.html" style="--item-accent:#ff6eb4">
+                <span class="artist-num">06</span>
+                <img class="artist-thumb" src="img/artists/thumb_sakai.jpg" onerror="this.onerror=null;this.src='https://placehold.co/44x44/1a0814/ff6eb4?text=SE'" alt="SAKAI ERIKA">
+                <div class="artist-info">
+                    <div class="artist-name-en">SAKAI ERIKA</div>
+                    <div class="artist-name-ko">사카이 에리카</div>
+                    <div class="artist-tag">Solo Artist · Japan</div>
+                </div>
+                <span class="artist-arrow">→</span>
+            </div>
+
+            <div class="artist-item" data-id="jiho" data-accent="#ff9500" data-link="/jiho/jiho.html" style="--item-accent:#ff9500">
+                <span class="artist-num">07</span>
+                <img class="artist-thumb" src="img/artists/thumb_jiho.jpg" onerror="this.onerror=null;this.src='https://placehold.co/44x44/1a0c00/ff9500?text=JH'" alt="JIHO">
+                <div class="artist-info">
+                    <div class="artist-name-en">JIHO</div>
+                    <div class="artist-name-ko">지호</div>
+                    <div class="artist-tag">R&amp;B · HipHop · P9 #35</div>
+                </div>
+                <span class="artist-arrow">→</span>
+            </div>
+
+            <div class="artist-item" data-id="sophia" data-accent="#c084fc" data-link="/sophia-han/sophia-han.html" style="--item-accent:#c084fc">
+                <span class="artist-num">08</span>
+                <img class="artist-thumb" src="img/artists/thumb_sophia.jpg" onerror="this.onerror=null;this.src='https://placehold.co/44x44/120a1a/c084fc?text=SH'" alt="Sophia Han">
+                <div class="artist-info">
+                    <div class="artist-name-en">Sophia Han</div>
+                    <div class="artist-name-ko">소피아한</div>
+                    <div class="artist-tag">Pop · #81 PRODUCE9</div>
+                </div>
+                <span class="artist-arrow">→</span>
+            </div>
+
+            <div class="artist-item" data-id="derek" data-accent="#34d399" data-link="/derek/derek.html" style="--item-accent:#34d399">
+                <span class="artist-num">09</span>
+                <img class="artist-thumb" src="img/artists/thumb_derek.jpg" onerror="this.onerror=null;this.src='https://placehold.co/44x44/041210/34d399?text=DK'" alt="DEREK">
+                <div class="artist-info">
+                    <div class="artist-name-en">DEREK</div>
+                    <div class="artist-name-ko">데릭</div>
+                    <div class="artist-tag">Male Solo · AETHERIUM</div>
+                </div>
+                <span class="artist-arrow">→</span>
+            </div>
+
+            <div class="list-divider" style="color:rgba(255,255,255,0.15);font-size:8px;">More Coming Soon</div>
+
+        </div>
+    </aside>
+
+    <!-- RIGHT PANEL -->
+    <main class="panel-right">
+
+        <div class="bg-slide active" id="bg-produce9"  style="background-image:url('img/artists/bg_produce9.jpg');background-color:#1a0514;"></div>
+        <div class="bg-slide"        id="bg-aetherium"  style="background-image:url('img/artists/bg_aetherium.jpg');background-color:#0a0818;"></div>
+        <div class="bg-slide"        id="bg-sweeteez"   style="background-image:url('img/artists/bg_sweeteez.jpg');background-color:#101008;"></div>
+        <div class="bg-slide"        id="bg-darkdiva"   style="background-image:url('img/artists/bg_darkdiva.jpg');background-color:#180008;"></div>
+        <div class="bg-slide"        id="bg-ashengate"  style="background-image:url('img/artists/bg_ashengate.jpg');background-color:#040e14;"></div>
+        <div class="bg-slide"        id="bg-sakai"      style="background-image:url('img/artists/bg_sakai.jpg');background-color:#1a0818;"></div>
+        <div class="bg-slide"        id="bg-jiho"       style="background-image:url('img/artists/bg_jiho.jpg');background-color:#180c00;"></div>
+        <div class="bg-slide"        id="bg-sophia"     style="background-image:url('img/artists/bg_sophia.jpg');background-color:#100818;"></div>
+        <div class="bg-slide"        id="bg-derek"      style="background-image:url('img/artists/bg_derek.jpg');background-color:#03100e;"></div>
+
+        <div class="corner-num" id="cornerNum">01</div>
+
+        <!-- INFO SLIDES -->
+        <div class="slide-info active" id="info-produce9">
+            <div class="members-badge"><span class="mbadge-dot" style="background:#ff2d78;"></span>99 Trainees · Survival Audition</div>
+            <div class="s-eyebrow" style="color:#ff2d78;">Survival Audition — Girls</div>
+            <h1 class="s-title">PRODUCE 9<span>GIRLS 99</span></h1>
+            <p class="s-desc">99명의 걸 트레이니가 펼치는 서바이벌 오디션. 투표로 데뷔 멤버를 결정하는 혁신적 엔터테인먼트 쇼.</p>
+            <div>
+                <a href="/pd9/pd9.html" class="slide-btn" style="background:#ff2d78;color:#fff;">View Trainees →</a>
+                <a href="/menu/information.html" class="slide-btn slide-btn-ghost">Audition Info</a>
+            </div>
+        </div>
+
+        <div class="slide-info" id="info-aetherium">
+            <div class="members-badge"><span class="mbadge-dot" style="background:#7c5cfc;"></span>99 Trainees · Survival Audition</div>
+            <div class="s-eyebrow" style="color:#7c5cfc;">Survival Audition — Boys</div>
+            <h1 class="s-title">AETHERIUM<span>BOYS 99</span></h1>
+            <p class="s-desc">99명의 보이 트레이니가 경쟁하는 서바이벌 오디션. 새로운 차원의 보이그룹 탄생을 목격하세요.</p>
+            <div>
+                <a href="/aeth/aeth.html" class="slide-btn" style="background:#7c5cfc;color:#fff;">View Trainees →</a>
+                <a href="/menu/information.html" class="slide-btn slide-btn-ghost">Audition Info</a>
+            </div>
+        </div>
+
+        <div class="slide-info" id="info-sweeteez">
+            <div class="members-badge"><span class="mbadge-dot" style="background:#e8ff00;"></span>5 Members · Active</div>
+            <div class="s-eyebrow" style="color:#e8ff00;">Girl Group</div>
+            <h1 class="s-title">SweeTeez<span>스위티즈</span></h1>
+            <p class="s-desc">마이블링의 대표 걸그룹. Zeropay · Biodance · Glossier 브랜드 앰배서더. 한국·일본·베트남 활동 중.</p>
+            <div><a href="/swtz/swtz.html" class="slide-btn" style="background:#e8ff00;color:#000;">Meet SweeTeez →</a></div>
+        </div>
+
+        <div class="slide-info" id="info-darkdiva">
+            <div class="members-badge"><span class="mbadge-dot" style="background:#ff0044;"></span>4 Members · Kawaii Metal</div>
+            <div class="s-eyebrow" style="color:#ff0044;">Girl Group</div>
+            <h1 class="s-title">Dark Diva<span>다크디바</span></h1>
+            <p class="s-desc">카와이 메탈을 재해석한 4인조 걸그룹. 귀엽지만 강렬한 사운드와 퍼포먼스로 새로운 장르를 개척한다.</p>
+            <div><a href="/darkdiva/darkdiva.html" class="slide-btn" style="background:#ff0044;color:#fff;">Meet Dark Diva →</a></div>
+        </div>
+
+        <div class="slide-info" id="info-ashengate">
+            <div class="members-badge"><span class="mbadge-dot" style="background:#00d4ff;"></span>4 Members · Rock Band</div>
+            <div class="s-eyebrow" style="color:#00d4ff;">Boy Group</div>
+            <h1 class="s-title">Ashengate<span>애쉬엔게이트</span></h1>
+            <p class="s-desc">4인조 남성 락밴드. 정통 록의 에너지와 감성이 충돌하는 전례없는 사운드.</p>
+            <div><a href="/ashengate/ashengate.html" class="slide-btn" style="background:#00d4ff;color:#000;">Meet Ashengate →</a></div>
+        </div>
+
+        <div class="slide-info" id="info-sakai">
+            <div class="members-badge"><span class="mbadge-dot" style="background:#ff6eb4;"></span>Solo Artist · Japan</div>
+            <div class="s-eyebrow" style="color:#ff6eb4;">Solo Artist</div>
+            <h1 class="s-title">SAKAI ERIKA<span>사카이 에리카</span></h1>
+            <p class="s-desc">일본 출신 솔로 아티스트. 독보적인 감성과 스타일로 한국과 일본을 잇는 글로벌 아티스트.</p>
+            <div><a href="/sakai-erika/sakai-erika.html" class="slide-btn" style="background:#ff6eb4;color:#000;">SAKAI ERIKA →</a></div>
+        </div>
+
+        <div class="slide-info" id="info-jiho">
+            <div class="members-badge"><span class="mbadge-dot" style="background:#ff9500;"></span>PRODUCE 9 #35 · Singer-Songwriter</div>
+            <div class="s-eyebrow" style="color:#ff9500;">Solo Artist</div>
+            <h1 class="s-title">JIHO<span>지호</span></h1>
+            <p class="s-desc">R&amp;B·힙합 싱어송라이터. 마이블링 프로젝트 다수의 작사·작곡을 담당하는 천재 뮤지션. PRODUCE 9 35번.</p>
+            <div><a href="/jiho/jiho.html" class="slide-btn" style="background:#ff9500;color:#000;">JIHO Profile →</a></div>
+        </div>
+
+        <div class="slide-info" id="info-sophia">
+            <div class="members-badge"><span class="mbadge-dot" style="background:#c084fc;"></span>PRODUCE 9 #81 · Pop</div>
+            <div class="s-eyebrow" style="color:#c084fc;">Solo Artist</div>
+            <h1 class="s-title">Sophia Han<span>소피아한</span></h1>
+            <p class="s-desc">팝 장르 솔로 아티스트. PRODUCE 9 81번 트레이니로 글로벌 팬들과 소통하는 감성 보컬리스트.</p>
+            <div><a href="/sophia-han/sophia-han.html" class="slide-btn" style="background:#c084fc;color:#000;">Sophia Han →</a></div>
+        </div>
+
+        <div class="slide-info" id="info-derek">
+            <div class="members-badge"><span class="mbadge-dot" style="background:#34d399;"></span>Solo Artist · AETHERIUM</div>
+            <div class="s-eyebrow" style="color:#34d399;">Solo Artist</div>
+            <h1 class="s-title">DEREK<span>데릭</span></h1>
+            <p class="s-desc">AETHERIUM 소속 남성 솔로 아티스트. 독보적인 스타일과 퍼포먼스로 새로운 팬덤을 만들어간다.</p>
+            <div><a href="/derek/derek.html" class="slide-btn" style="background:#34d399;color:#000;">DEREK Profile →</a></div>
+        </div>
+
+    </main>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer-strip">
+    <span class="f-left">&#169; 2025 (주)마이블링 MyBlin9 Corp.</span>
+    <div class="f-right">
+        <a href="/terms.html">Terms</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/menu/contact.html">Contact</a>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/myblin9_" target="_blank" rel="noopener" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 16.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="https://www.youtube.com/@myblin9" target="_blank" rel="noopener" aria-label="YouTube">
+                <svg viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script>
+(function () {
+    'use strict';
+
+    function activate(item) {
+        var id     = item.getAttribute('data-id');
+        var accent = item.getAttribute('data-accent') || '#ff2d78';
+
+        document.documentElement.style.setProperty('--accent', accent);
+
+        document.querySelectorAll('.artist-item').forEach(function (el) { el.classList.remove('active'); });
+        document.querySelectorAll('.bg-slide').forEach(function (el)    { el.classList.remove('active'); });
+        document.querySelectorAll('.slide-info').forEach(function (el)  { el.classList.remove('active'); });
+
+        item.classList.add('active');
+
+        var bg   = document.getElementById('bg-'   + id);
+        var info = document.getElementById('info-' + id);
+        if (bg)   bg.classList.add('active');
+        if (info) info.classList.add('active');
+
+        var numEl     = item.querySelector('.artist-num');
+        var cornerNum = document.getElementById('cornerNum');
+        if (numEl && cornerNum) cornerNum.textContent = numEl.textContent;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var items        = Array.from(document.querySelectorAll('.artist-item'));
+        var currentIndex = 0;
+
+        items.forEach(function (item, idx) {
+            item.addEventListener('mouseenter', function () {
+                currentIndex = idx;
+                activate(item);
+            });
+            item.addEventListener('click', function () {
+                var link = item.getAttribute('data-link');
+                if (link) { window.location.href = link; }
+            });
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                currentIndex = Math.min(currentIndex + 1, items.length - 1);
+                activate(items[currentIndex]);
+                items[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                currentIndex = Math.max(currentIndex - 1, 0);
+                activate(items[currentIndex]);
+                items[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else if (e.key === 'Enter') {
+                var link = items[currentIndex] && items[currentIndex].getAttribute('data-link');
+                if (link) { window.location.href = link; }
+            }
+        });
+    });
+
+}());
+</script>
+
+</body>
+</html>
