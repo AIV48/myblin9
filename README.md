@@ -2,7 +2,13 @@
 
 🌐 Official Website: https://myblin9.com
 
-[![Watch Demo](assets/sweeteez-preview.jpg)](https://github.com/AIV48/myblin9/raw/main/assets/videos/sweeteez.mp4)
+<a href="https://github.com/AIV48/myblin9/blob/main/assets/videos/sweeteez.mp4">
+  <img src="assets/sweeteez-preview.jpg" width="320" alt="Watch SweeTeez Demo Video">
+</a>
+
+<br>
+
+▶ Watch SweeTeez Demo Video
 
 ![Status](https://img.shields.io/badge/status-active-blue)
 ![AI](https://img.shields.io/badge/focus-AI%20Entertainment-purple)
