@@ -1,3 +1,5 @@
+![myblin9 banner](assets/bg_sweeteez.jpg)
+
 # myblin9
 
 AI entertainment platform focused on AI idols, virtual characters, and immersive fan interaction.
