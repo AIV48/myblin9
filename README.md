@@ -16,3 +16,14 @@ myblin9 aims to build the next-generation AI entertainment ecosystem combining K
 
 ## Website
 https://myblin9.com
+
+## Tech Stack
+
+- Python
+- Node.js
+- React
+- Vector Database
+- AI Video Generation
+- LLM Memory System
+- Stable Diffusion
+- Generative Audio Pipeline
