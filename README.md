@@ -27,3 +27,16 @@ https://myblin9.com
 - LLM Memory System
 - Stable Diffusion
 - Generative Audio Pipeline
+
+## Research Areas
+
+- AI idol identity consistency
+- virtual character memory
+- generative video production
+- AI-assisted music creation
+- prompt engineering for entertainment content
+- fan interaction systems
+
+## Production Workflow
+
+The project documents an AI-assisted creative pipeline for developing virtual idols, music videos, character assets, and fan-facing entertainment experiences.
