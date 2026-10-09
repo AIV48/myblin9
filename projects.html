@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A visual overview of the creative technology projects taking shape at MyBlin9.">
+    <meta name="theme-color" content="#08080d">
+    <title>Projects — MyBlin9</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing:border-box; }
+        :root {
+            color-scheme:dark;
+            --bg:#08080d;
+            --panel:#101017;
+            --line:rgba(255,255,255,.1);
+            --text:#f7f5f8;
+            --muted:#aaa5b1;
+            --accent:#ff4b91;
+        }
+        html { scroll-behavior:smooth; }
+        body {
+            margin:0;
+            background:
+                radial-gradient(ellipse at 80% 5%, rgba(87,48,107,.16), transparent 34rem),
+                var(--bg);
+            color:var(--text);
+            font-family:"DM Sans", sans-serif;
+            line-height:1.6;
+        }
+        a { color:inherit; }
+        .site-header {
+            height:72px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:0 clamp(22px,6vw,88px);
+            border-bottom:1px solid var(--line);
+            background:rgba(8,8,13,.82);
+        }
+        .brand {
+            font-family:"Bebas Neue",sans-serif;
+            font-size:27px;
+            letter-spacing:3px;
+            text-decoration:none;
+        }
+        .brand span { color:var(--accent); }
+        .header-links { display:flex; align-items:center; gap:30px; }
+        .header-links a {
+            font:700 11px "Rajdhani",sans-serif;
+            letter-spacing:2px;
+            text-decoration:none;
+            text-transform:uppercase;
+        }
+        .header-links .current { color:var(--accent); }
+        .header-links .home-link { color:#d5d0d9; transition:color .2s; }
+        .header-links .home-link:hover { color:#fff; }
+        main { width:min(1192px, calc(100% - 44px)); margin:0 auto; }
+        .hero {
+            position:relative;
+            min-height:340px;
+            display:flex;
+            align-items:flex-end;
+            overflow:hidden;
+            margin:42px 0 66px;
+            border:1px solid var(--line);
+            background:#17131d url("assets/bg_aetherium.jpg") center 40%/cover;
+        }
+        .hero::before {
+            content:"";
+            position:absolute;
+            inset:0;
+            background:linear-gradient(90deg,rgba(8,8,13,.96) 0%,rgba(8,8,13,.8) 43%,rgba(8,8,13,.13) 100%),
+                linear-gradient(0deg,rgba(8,8,13,.58),transparent 72%);
+        }
+        .hero-content { position:relative; max-width:720px; padding:clamp(28px,6vw,70px); }
+        .eyebrow {
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin:0 0 15px;
+            color:#ffc0d9;
+            font:700 11px "Rajdhani",sans-serif;
+            letter-spacing:3px;
+            text-transform:uppercase;
+        }
+        .eyebrow::before { content:""; width:24px; height:1px; background:var(--accent); }
+        h1, h2, h3, p { margin-top:0; }
+        h1 {
+            max-width:650px;
+            margin-bottom:13px;
+            font:clamp(54px,8vw,94px)/.91 "Bebas Neue",sans-serif;
+            letter-spacing:1px;
+        }
+        .hero-copy { max-width:510px; margin:0; color:#d1ccd5; font-size:15px; }
+        .section-heading {
+            display:flex;
+            align-items:flex-end;
+            justify-content:space-between;
+            gap:20px;
+            margin-bottom:22px;
+        }
+        .section-heading .eyebrow { margin-bottom:7px; }
+        h2 { margin-bottom:0; font:38px/1 "Bebas Neue",sans-serif; letter-spacing:1.4px; }
+        .project-count { color:var(--muted); font:700 11px "Rajdhani",sans-serif; letter-spacing:2px; }
+        .project-grid {
+            display:grid;
+            grid-template-columns:repeat(2,minmax(0,1fr));
+            gap:18px;
+        }
+        .project-card {
+            --project-accent:#ff4b91;
+            overflow:hidden;
+            border:1px solid var(--line);
+            background:linear-gradient(135deg,rgba(255,255,255,.025),transparent 52%),var(--panel);
+            transition:border-color .25s,transform .25s;
+        }
+        .project-card:hover { transform:translateY(-4px); border-color:color-mix(in srgb,var(--project-accent),transparent 45%); }
+        .project-card.workspace { --project-accent:#ad8cff; }
+        .project-card.astraea { --project-accent:#7ee4d1; }
+        .project-card.vista { --project-accent:#ff9a68; }
+        .project-card.myblin9 { --project-accent:#ff69a2; }
+        .project-image { position:relative; height:230px; overflow:hidden; background:#191721; }
+        .project-image img {
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            transition:transform .6s cubic-bezier(.2,.7,.3,1);
+        }
+        .project-card:hover .project-image img { transform:scale(1.045); }
+        .project-image::after {
+            content:"";
+            position:absolute;
+            inset:35% 0 0;
+            background:linear-gradient(0deg,rgba(8,8,13,.84),transparent);
+        }
+        .visual-label {
+            position:absolute;
+            z-index:1;
+            left:20px;
+            bottom:15px;
+            color:rgba(255,255,255,.8);
+            font:700 9px "Rajdhani",sans-serif;
+            letter-spacing:2px;
+            text-transform:uppercase;
+        }
+        .project-body { padding:21px 23px 24px; }
+        .project-meta {
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:space-between;
+            gap:8px;
+            margin-bottom:11px;
+            color:var(--project-accent);
+            font:700 10px "Rajdhani",sans-serif;
+            letter-spacing:1.7px;
+            text-transform:uppercase;
+        }
+        .project-meta .status { color:#bdb7c3; }
+        h3 { margin-bottom:8px; font:32px/1 "Bebas Neue",sans-serif; letter-spacing:1px; }
+        .project-body p { min-height:52px; margin-bottom:18px; color:#c4bfca; font-size:13px; line-height:1.75; }
+        .project-tags { display:flex; flex-wrap:wrap; gap:7px; }
+        .project-tags span {
+            padding:5px 9px;
+            border:1px solid rgba(255,255,255,.1);
+            color:#c4bfca;
+            font:600 10px "Rajdhani",sans-serif;
+            letter-spacing:.8px;
+        }
+        .note {
+            display:flex;
+            gap:12px;
+            margin:24px 0 72px;
+            padding:16px 18px;
+            border-left:2px solid rgba(255,75,145,.7);
+            background:rgba(255,255,255,.025);
+            color:#bdb7c3;
+            font-size:12px;
+        }
+        .note strong { color:#f0eaf1; font-weight:600; }
+        .note-mark { color:var(--accent); font-weight:700; }
+        footer {
+            display:flex;
+            justify-content:space-between;
+            gap:16px;
+            padding:20px clamp(22px,6vw,88px);
+            border-top:1px solid var(--line);
+            color:#8f8995;
+            font:600 10px "Rajdhani",sans-serif;
+            letter-spacing:1.3px;
+            text-transform:uppercase;
+        }
+        footer a { color:#d0c9d3; text-decoration:none; }
+        footer a:hover { color:#fff; }
+        @media (max-width:680px) {
+            .site-header { height:64px; }
+            .header-links { gap:17px; }
+            .hero { min-height:310px; margin:24px 0 48px; background-position:58% center; }
+            .hero::before { background:linear-gradient(90deg,rgba(8,8,13,.94),rgba(8,8,13,.55)),linear-gradient(0deg,rgba(8,8,13,.6),transparent); }
+            .project-grid { grid-template-columns:1fr; }
+            .project-image { height:220px; }
+            .project-body p { min-height:0; }
+            .section-heading { align-items:flex-end; }
+            h2 { font-size:34px; }
+        }
+        @media (max-width:420px) {
+            main { width:calc(100% - 30px); }
+            .header-links { gap:12px; }
+            .header-links a { font-size:10px; letter-spacing:1px; }
+            .project-meta { font-size:9px; }
+            footer { flex-direction:column; }
+        }
+        @media (prefers-reduced-motion:reduce) {
+            *, *::before, *::after { scroll-behavior:auto !important; transition:none !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="index.html" aria-label="MyBlin9 home">MYBLIN<span>9</span></a>
+        <nav class="header-links" aria-label="Main navigation">
+            <a class="current" href="projects.html" aria-current="page">Projects</a>
+            <a class="home-link" href="index.html">Home <span aria-hidden="true">↗</span></a>
+        </nav>
+    </header>
+    <main>
+        <section class="hero" aria-labelledby="page-title">
+            <div class="hero-content">
+                <p class="eyebrow">The workbench · ongoing</p>
+                <h1 id="page-title">Ideas made<br>into worlds.</h1>
+                <p class="hero-copy">A snapshot of the creative systems, characters, and experiences I’m exploring—where entertainment meets AI.</p>
+            </div>
+        </section>
+
+        <section aria-labelledby="projects-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">A few things in motion</p>
+                    <h2 id="projects-title">PROJECTS &amp; EXPERIMENTS</h2>
+                </div>
+                <span class="project-count">01 — 04 / CURRENT FOCUS</span>
+            </div>
+
+            <div class="project-grid">
+                <article class="project-card workspace">
+                    <div class="project-image">
+                        <img src="assets/bg_aetherium.jpg" alt="Blue-lit stage concept art from the MyBlin9 visual library" loading="lazy">
+                        <span class="visual-label">Visual direction · MyBlin9 library</span>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-meta"><span>01 / Agent systems</span><span class="status">Exploration</span></div>
+                        <h3>AI_Workspace</h3>
+                        <p>A local workspace for shaping AI agents and personas, then connecting them into creative pipelines.</p>
+                        <div class="project-tags"><span>Local-first</span><span>Agent personas</span><span>Creative pipelines</span></div>
+                    </div>
+                </article>
+
+                <article class="project-card astraea">
+                    <div class="project-image">
+                        <img src="assets/bg_darkdiva.jpg" alt="Dark, theatrical character concept art from the MyBlin9 visual library" loading="lazy">
+                        <span class="visual-label">Visual direction · MyBlin9 library</span>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-meta"><span>02 / Interactive worlds</span><span class="status">Game concept</span></div>
+                        <h3>AstraeaNPCProject</h3>
+                        <p>A game NPC concept exploring characterful dialogue and behaviors that can make an in-game world feel more responsive.</p>
+                        <div class="project-tags"><span>NPC dialogue</span><span>Character behavior</span><span>Game AI</span></div>
+                    </div>
+                </article>
+
+                <article class="project-card vista">
+                    <div class="project-image">
+                        <img src="assets/bg_produce9.jpg" alt="Pink-lit production stage concept art from the MyBlin9 visual library" loading="lazy">
+                        <span class="visual-label">Visual direction · MyBlin9 library</span>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-meta"><span>03 / Generative media</span><span class="status">Workflow concept</span></div>
+                        <h3>VISTAChain</h3>
+                        <p>A prompt-to-video workflow idea for turning a starting prompt into a more guided, connected creative process.</p>
+                        <div class="project-tags"><span>Prompt to video</span><span>Generative media</span><span>Workflow</span></div>
+                    </div>
+                </article>
+
+                <article class="project-card myblin9">
+                    <div class="project-image">
+                        <img src="assets/bg_sweeteez.jpg" alt="Pastel virtual idol group concept art from the MyBlin9 visual library" loading="lazy">
+                        <span class="visual-label">Virtual idol concept · MyBlin9</span>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-meta"><span>04 / AI entertainment</span><span class="status">Platform vision</span></div>
+                        <h3>myblin9</h3>
+                        <p>An AI entertainment platform exploring virtual idols, persistent character memory, generated media, and fan interaction.</p>
+                        <div class="project-tags"><span>Virtual characters</span><span>AI media</span><span>Fan experiences</span></div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <aside class="note">
+            <span class="note-mark" aria-hidden="true">✳</span>
+            <span><strong>About the images:</strong> these are existing MyBlin9 concept visuals used as moodboard references, not screenshots or claims of finished product features. The projects shown are at different stages of exploration.</span>
+        </aside>
+    </main>
+    <footer>
+        <span>MYBLIN9 · IDEAS IN PROGRESS</span>
+        <a href="index.html">Back to the main site ↑</a>
+    </footer>
+</body>
+</html>
